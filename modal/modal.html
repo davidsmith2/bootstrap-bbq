@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Modal :: Bootstrap BBQ</title>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Modal</h1>
+    <div id="modal-links">
+        <a href="#modal" class="modal-link modal-1">Modal 1</a>
+        <a href="#modal" class="modal-link modal-2">Modal 2</a>
+        <a href="#modal" class="modal-link modal-3">Modal 3</a>
+        <a href="#modal" class="modal-link modal-4">Modal 4</a>
+    </div>
+    <div class="modal fade" id="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true">&times;</button>
+                    <h2 class="modal-title">Modal title</h2>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-1">
+                        Content for modal 1
+                    </div>
+                    <div id="modal-2">
+                        Content for modal 2
+                    </div>
+                    <div id="modal-3">
+                        Content for modal 3
+                    </div>
+                    <div id="modal-4">
+                        Content for modal 4
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default">Print</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../jquery.ba-bbq.js"></script>
+    <script src="modal.js" type="text/javascript"></script>
+</body>
+</html>

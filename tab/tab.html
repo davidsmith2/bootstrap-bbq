@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Tab :: Bootstrap BBQ</title>
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="tab.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1>Tab</h1>
+        <div class="tabs" id="tabs-outer">
+            <ul class="nav nav-tabs">
+                <li><a href="#tab-outer-1">Tab Outer 1</a></li>
+                <li><a href="#tab-outer-2">Tab Outer 2</a></li>
+                <li><a href="#tab-outer-3">Tab Outer 3</a></li>
+                <li><a href="#tab-outer-4">Tab Outer 4</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="tab-outer-1">
+                    <div class="tabs" id="tabs-inner-1">
+                        <ul class="nav nav-tabs">
+                            <li><a href="#tab-inner-1a">Tab Inner 1a</a></li>
+                            <li><a href="#tab-inner-1b">Tab Inner 1b</a></li>
+                            <li><a href="#tab-inner-1c">Tab Inner 1c</a></li>
+                            <li><a href="#tab-inner-1d">Tab Inner 1d</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="tab-inner-1a">
+                            Content for tab 1
+                            </div>
+                            <div class="tab-pane" id="tab-inner-1b">
+                            Content for tab 2
+                            </div>
+                            <div class="tab-pane" id="tab-inner-1c">
+                            Content for tab 3
+                            </div>
+                            <div class="tab-pane" id="tab-inner-1d">
+                            Content for tab 4
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-outer-2">
+                Content for tab 2
+                </div>
+                <div class="tab-pane" id="tab-outer-3">
+                Content for tab 3
+                </div>
+                <div class="tab-pane" id="tab-outer-4">
+                    <div class="tabs" id="tabs-inner-4">
+                        <ul class="nav nav-tabs">
+                            <li><a href="#tab-inner-4a">Tab Inner 4a</a></li>
+                            <li><a href="#tab-inner-4b">Tab Inner 4b</a></li>
+                            <li><a href="#tab-inner-4c">Tab Inner 4c</a></li>
+                            <li><a href="#tab-inner-4d">Tab Inner 4d</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="tab-inner-4a">
+                            Content for tab 1
+                            </div>
+                            <div class="tab-pane" id="tab-inner-4b">
+                            Content for tab 2
+                            </div>
+                            <div class="tab-pane" id="tab-inner-4c">
+                            Content for tab 3
+                            </div>
+                            <div class="tab-pane" id="tab-inner-4d">
+                            Content for tab 4
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="../jquery.ba-bbq.js"></script>
+        <script src="state.js"></script>
+        <script src="tab.js"></script>
+    </body>
+</html>
