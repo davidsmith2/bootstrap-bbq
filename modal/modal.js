@@ -1,4 +1,4 @@
-$(function () {
+$(function ($, window) {
 
     var selectors,
         $modal,
@@ -85,4 +85,4 @@ $(function () {
         return selectors.modal.slice(1);
     }
 
-});
+}($, window));
