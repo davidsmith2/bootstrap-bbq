@@ -1,7 +1,6 @@
 jQuery(function ($, window) {
     var selectors,
         $modal,
-        $modalBodies,
         $modalLinks,
         $modalCloseButton,
         events;
@@ -14,7 +13,6 @@ jQuery(function ($, window) {
     };
 
     $modal                   = $(selectors.modal);
-    $modalBodies             = $(selectors.modalBodies);
     $modalCloseButton        = $(selectors.modalCloseButton);
     $modalLinks              = $(selectors.modalLinks);
 
@@ -42,10 +40,10 @@ jQuery(function ($, window) {
     }
 
     function showModal (index) {
-        var $modalBody;
+        var $modalBodies = $(selectors.modalBodies);
 
         $modalBodies.not(":eq(index)").hide();
-        $modalBody = $modalBodies.eq(index).show();
+        $modalBodies.eq(index).show();
         $modal.modal("show");
     }
 
