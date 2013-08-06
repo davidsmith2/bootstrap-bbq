@@ -20,14 +20,15 @@ $(function ($, window) {
     $modalCloseButton        = $(selectors.modalCloseButton);
 
     events = {
+        click:              "click",
         hashchange:         "hashchange"
     };
 
     $modalLinks
-        .on("click", "a", handleModalShow);
+        .on(events.click, "a", handleModalShow);
 
     $modalCloseButton
-        .on("click", handleModalHide);
+        .on(events.click, handleModalHide);
 
     $(window)
         .on(events.hashchange, handleHashChange)
@@ -75,9 +76,9 @@ $(function ($, window) {
 
         if (typeof $.bbq.getState(getModalId()) !== "undefined") {
             index = $.bbq.getState(getModalId(), true) || 0;
-            $modalLinks.find("a").eq(index).trigger("click");
+            $modalLinks.find("a").eq(index).trigger(events.click);
         } else {
-            $modalCloseButton.trigger("click");
+            $modalCloseButton.trigger(events.click);
         }
     }
 
