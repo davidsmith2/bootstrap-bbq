@@ -1,5 +1,4 @@
-$(function ($, window) {
-
+jQuery(function ($, window) {
     var selectors,
         $modal,
         $modalBodies,
@@ -16,8 +15,8 @@ $(function ($, window) {
 
     $modal                   = $(selectors.modal);
     $modalBodies             = $(selectors.modalBodies);
-    $modalLinks              = $(selectors.modalLinks);
     $modalCloseButton        = $(selectors.modalCloseButton);
+    $modalLinks              = $(selectors.modalLinks);
 
     events = {
         click:              "click",
@@ -86,4 +85,4 @@ $(function ($, window) {
         return selectors.modal.slice(1);
     }
 
-}($, window));
+}(jQuery, this));
