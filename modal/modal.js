@@ -71,11 +71,11 @@ $(function ($, window) {
     }
 
     function handleHashChange () {
+        var index;
+
         if (typeof $.bbq.getState(getModalId()) !== "undefined") {
-            $modalLinks.each(function () {
-                var index = $.bbq.getState(getModalId(), true) || 0;
-                $(this).find("a").eq(index).trigger("click");
-            });
+            index = $.bbq.getState(getModalId(), true) || 0;
+            $modalLinks.find("a").eq(index).trigger("click");
         } else {
             $modalCloseButton.trigger("click");
         }
