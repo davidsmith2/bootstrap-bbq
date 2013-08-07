@@ -1,8 +1,9 @@
-jQuery(function ($, window) {
+jQuery(function ($, window, document) {
     var selectors,
         $modal,
-        $modalLinks,
         $modalCloseButton,
+        $modalLinks,
+        lastFocus,
         events;
 
     selectors = {
@@ -21,6 +22,9 @@ jQuery(function ($, window) {
         hashchange:         "hashchange"
     };
 
+    $modal
+        .attr("tabindex", -1).focus();
+
     $modalLinks
         .on(events.click, "a", handleModalShow);
 
@@ -31,10 +35,13 @@ jQuery(function ($, window) {
         .on(events.hashchange, handleHashChange)
         .trigger(events.hashchange);
 
+    $(document).on("focus", handleDocumentFocus);
+
     function handleModalShow (e) {
         var index = $(e.target).index();
 
         e.preventDefault();
+        setLastFocus();
         showModal(index);
         pushState(index);
     }
@@ -44,7 +51,10 @@ jQuery(function ($, window) {
 
         $modalBodies.not(":eq(index)").hide();
         $modalBodies.eq(index).show();
-        $modal.modal("show");
+        $modal.modal({
+            keyboard: true,
+            show: true
+        });
     }
 
     function pushState (index) {
@@ -56,6 +66,7 @@ jQuery(function ($, window) {
 
     function handleModalHide (e) {
         e.preventDefault();
+        restoreLastFocus();
         hideModal();
         removeState();
     }
@@ -83,4 +94,29 @@ jQuery(function ($, window) {
         return selectors.modal.slice(1);
     }
 
-}(jQuery, this));
+    function handleDocumentFocus (e) {
+        if (isModalOpen() && !isElementInModal(e.target)) {
+            e.stopPropagation();
+            $modal.focus();
+        }
+    }
+
+    function isModalOpen () {
+        return $modal.hasClass("in");
+    }
+
+    function isElementInModal (target) {
+        $.contains($modal, target);
+    }
+
+    function setLastFocus () {
+        lastFocus = document.activeElement;
+    }
+
+    function restoreLastFocus () {
+        if (typeof lastFocus !== "undefined") {
+            lastFocus.focus();
+        }
+    }
+
+}(jQuery, this, document));
