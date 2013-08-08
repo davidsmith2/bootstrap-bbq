@@ -1,8 +1,8 @@
 /* =========================================================
- * bootstrap-modal.js v2.3.1
- * http://twitter.github.com/bootstrap/javascript.html#modals
+ * bootstrap-modal.js v2.3.2
+ * http://getbootstrap.com/2.3.2/javascript.html#modals
  * =========================================================
- * Copyright 2012 Twitter, Inc.
+ * Copyright 2013 Twitter, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,6 @@
     , show: function () {
         var that = this
           , e = $.Event('show')
-          , state
 
         this.$element.trigger(e)
 
@@ -78,7 +77,6 @@
             that.$element.focus().trigger('shown')
 
         })
-
       }
 
     , hide: function (e) {
@@ -105,7 +103,6 @@
         $.support.transition && this.$element.hasClass('fade') ?
           this.hideWithTransition() :
           this.hideModal()
-
       }
 
     , enforceFocus: function () {
@@ -121,8 +118,8 @@
         var that = this
         if (this.isShown && this.options.keyboard) {
           this.$element.on('keyup.dismiss.modal', function ( e ) {
-             e.which == 27 && that.hide()
-           })
+            e.which == 27 && that.hide()
+          })
         } else if (!this.isShown) {
           this.$element.off('keyup.dismiss.modal')
         }
@@ -192,7 +189,6 @@
           callback()
         }
       }
-
   }
 
 
@@ -206,14 +202,9 @@
       var $this = $(this)
         , data = $this.data('modal')
         , options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option)
-
       if (!data) $this.data('modal', (data = new Modal(this, options)))
-
-      if (typeof option == 'string') {
-        data[option]()
-      } else if (options.show) {
-        data.show()
-      }
+      if (typeof option == 'string') data[option]()
+      else if (options.show) data.show()
     })
   }
 
@@ -251,7 +242,6 @@
       .one('hide', function () {
         $this.focus()
       })
-
-  });
+  })
 
 }(window.jQuery);
