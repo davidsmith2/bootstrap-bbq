@@ -1,57 +1,62 @@
 $(function () {
 
-    var selectors, a, ab, ai;
+    var sels, accs;
 
-    selectors = {
-        a: '.accordion',
-        ag: '.accordion-group',
-        ah: '.accordion-heading',
-        ab: '.accordion-body',
-        ai: '.accordion-inner',
-        'in': '.in'
+    sels = {
+        acc:            '.accordion',
+        accGroup:       '.accordion-group',
+        accHeading:     '.accordion-heading',
+        accBody:        '.accordion-body',
+        accInner:       '.accordion-inner'
     };
 
-    a = $(selectors.a);
-    setInners(a.find(selectors.ab));
-    ab = getHiddenBodies(a);
-    ai = getInners(ab);
+    accs = $(sels.acc);
 
-    setVisibility(ai, 'hidden');
+    setAccInners(accs.find(sels.accBody));
+    init();
 
-    a.on({
+    accs.on({
         hidden: function () {
-            var ab = getHiddenBodies($(this)),
-                ai = getInners(ab);
+            var accBodies = getAccBodiesHidden($(this)),
+                accInners = getAccInners(accBodies);
 
-            setVisibility(ai, 'hidden');
+            setVisibility(accInners, 'hidden');
         },
         shown: function () {
-            var ab = getShownBodies($(this)),
-                ai = getInners(ab);
+            var accBodies = getAccBodiesShown($(this)),
+                accInners = getAccInners(accBodies);
 
-            setVisibility(ai, 'visible');
+            setVisibility(accInners, 'visible');
         }
     });
 
-    function setInners (els) {
+    function setAccInners (els) {
         $.each(els, function () {
             var el = $(this);
-            if (el.find(selectors.ai).length === 0) {
-                el.children().wrapAll('<div class="' + selectors.ai.slice(1) + '" />');
+            if (el.find(sels.accInner).length === 0) {
+                el.children().wrapAll('<div class="' + sels.accInner.slice(1) + '" />');
             }
         });
     }
 
-    function getHiddenBodies (els) {
-        return els.find(selectors.ab).not(selectors['in']);
+    function init () {
+        var accBodies, accInners;
+
+        accBodies = getAccBodiesHidden(accs);
+        accInners = getAccInners(accBodies);
+        setVisibility(accInners, 'hidden');
     }
 
-    function getShownBodies (els) {
-        return els.find(selectors.ag + ' > ' + selectors['in']);
+    function getAccBodiesHidden (els) {
+        return els.find(sels.accBody).not('.in');
     }
 
-    function getInners (els) {
-        return els.find(selectors.ai);
+    function getAccBodiesShown (els) {
+        return els.find(sels.accGroup + ' > .in');
+    }
+
+    function getAccInners (els) {
+        return els.find(sels.accInner);
     }
 
     function setVisibility (els, val) {
