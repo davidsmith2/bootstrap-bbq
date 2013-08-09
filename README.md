@@ -19,3 +19,6 @@ Tab
 ---
 
 *   Application state is remembered and browser back button operation is preserved (thanks to jQuery BBQ plugin).
+
+Dropdown
+--------
