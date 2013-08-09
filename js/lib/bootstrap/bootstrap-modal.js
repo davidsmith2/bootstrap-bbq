@@ -44,7 +44,6 @@
     , show: function () {
         var that = this
           , e = $.Event('show')
-          , state
 
         this.$element.trigger(e)
 
@@ -69,11 +68,7 @@
 
           that.$element
             .addClass('in')
-            .attr('aria-hidden', false)
-
-          that.lastFocus = document.activeElement // save a reference to the modal-toggling element
-
-          that.$element.attr('tabindex', -1) // make the modal focusable
+            .attr('aria-hidden', false)			
 
           that.enforceFocus()
 
@@ -82,7 +77,6 @@
             that.$element.focus().trigger('shown')
 
         })
-
       }
 
     , hide: function (e) {
@@ -102,10 +96,6 @@
 
         $(document).off('focusin.modal')
 
-        that.$element.removeAttr('tabindex') // make the modal unfocusable
-
-        that.lastFocus.focus() // return focus to the modal-toggling element
-
         this.$element
           .removeClass('in')
           .attr('aria-hidden', true)
@@ -113,7 +103,6 @@
         $.support.transition && this.$element.hasClass('fade') ?
           this.hideWithTransition() :
           this.hideModal()
-
       }
 
     , enforceFocus: function () {
@@ -200,7 +189,6 @@
           callback()
         }
       }
-
   }
 
 
@@ -214,14 +202,9 @@
       var $this = $(this)
         , data = $this.data('modal')
         , options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option)
-
       if (!data) $this.data('modal', (data = new Modal(this, options)))
-
-      if (typeof option == 'string') {
-        data[option]()
-      } else if (options.show) {
-        data.show()
-      }
+      if (typeof option == 'string') data[option]()
+      else if (options.show) data.show()
     })
   }
 
@@ -259,7 +242,6 @@
       .one('hide', function () {
         $this.focus()
       })
-
-  });
+  })
 
 }(window.jQuery);
