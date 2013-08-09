@@ -13,7 +13,7 @@ $(function () {
     accs = $(sels.acc);
 
     setAccInners(accs.find(sels.accBody));
-    init();
+    initAcc();
 
     accs.on({
         hidden: function () {
@@ -39,7 +39,7 @@ $(function () {
         });
     }
 
-    function init () {
+    function initAcc () {
         var accBodies = getAccBodiesHidden(accs),
             accInners = getAccInners(accBodies);
 
