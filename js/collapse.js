@@ -40,10 +40,9 @@ $(function () {
     }
 
     function init () {
-        var accBodies, accInners;
+        var accBodies = getAccBodiesHidden(accs),
+            accInners = getAccInners(accBodies);
 
-        accBodies = getAccBodiesHidden(accs);
-        accInners = getAccInners(accBodies);
         setVisibility(accInners, 'hidden');
     }
 
