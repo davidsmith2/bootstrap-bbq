@@ -1,7 +1,7 @@
-Bootstrap BBQ
-=============
+"Bootstrap BBQ"
+===============
 
-An attempt at integrating Twitter Bootstrap components with the jQuery BBQ "back button and query" library, plus other accessibility enhancements.
+I'm currently in the midst of learning Twitter Bootstrap. While I'm at it I'm attempting to integrate some of Bootstrap's components with the jQuery BBQ ("back button and query") library, as well as trying to add some other accessibility enhancements.
 
 Collapse
 --------
