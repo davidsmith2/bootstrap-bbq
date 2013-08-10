@@ -18,7 +18,7 @@ Modal
 Tab
 ---
 
-*   Application state is remembered and browser back button operation is preserved (thanks to jQuery BBQ plugin).
+*   Playing around with focus order and giving the user a certain amount of time to decide on whether to tab down into the tab pane content.
 
 Dropdown
 --------
