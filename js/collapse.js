@@ -1,64 +1,37 @@
-(function ($, document) {
+;(function ($, window, document, undefined) {
 
-    $(document).ready(handleDocumentReady);
+    var pluginName = 'accessify',
+        defaults = {
+            selectors: {
+                accordion:          '.accordion',
+                accordionGroup:     '.accordion-group',
+                accordionHeading:   '.accordion-heading',
+                accordionBody:      '.accordion-body',
+                accordionInner:     '.accordion-inner'
+            },
+            focus: true
+        };
 
-    function handleDocumentReady () {
-        var accordions = $('.accessify'),
-            accessify, option;
+    /* ACCESSIFY PUBLIC CLASS DEFINITION
+     * ================================= */
 
-        if (accordions[0]) {
-            accessify = accordions.data('accessify');
-            option = (accessify) ? true : accordions.data();
-            accordions.accessify(option);
-        } else {
-            console.log("You've decided not to accessify this accordion. Furry muff.");
-        }
-    }
-
-    $.fn.accessify = function (option) {
-        return this.each(handleAccessify);
-    };
-
-    $.fn.accessify.defaults = {
-        selectors: {
-            accordion:          '.concertina',
-            accordionGroup:     '.accordion-group',
-            accordionHeading:   '.accordion-heading',
-            accordionBody:      '.accordion-body',
-            accordionInner:     '.accordion-inner'
-        },
-        focus: true
-    };
-
-    function handleAccessify () {
-        var $this = $(this),
-            data = $this.data('accessify'),
-            options = $.extend({}, $.fn.accessify.defaults, $this.data(), typeof option === 'object' && options);
-
-        if (!data) {
-            $this.data('accessify', (data = new Accessify(this, options)));
-        }
-
-        if (typeof options === 'string') {
-            data[option]();
-        }
-    }
-
-    function Accessify (element, options) {
+    function Plugin (element, options) {
         this.$element = $(element);
-        this.options = $.extend({}, $.fn.accessify.defaults, options);
+        this.settings = $.extend({}, defaults, options);
+        this._defaults = defaults;
+        this._name = pluginName;
 
-        if (this.options.focus) {
+        if (this.settings.focus) {
             this.focus();
         }
     }
 
-    Accessify.prototype = {
+    Plugin.prototype = {
 
-        constructor: Accessify,
+        constructor: Plugin,
 
         focus: function () {
-            var selectors = this.options.selectors,
+            var selectors = this.settings.selectors,
                 that = this,
                 events, accordion, accordionBodies;
 
@@ -87,7 +60,7 @@
             var that = this;
             $.each(accordionBodies, function () {
                 var accordionBody = $(this),
-                    selectors = that.options.selectors;
+                    selectors = that.settings.selectors;
 
                 if (!accordionBody.find(selectors.accordionInner)[0]) {
                     accordionBody.children().wrapAll('<div class="' + selectors.accordionInner.slice(1) + '" />');
@@ -103,15 +76,15 @@
         },
 
         getHiddenAccordionBodies: function (accordion) {
-            return accordion.find(this.options.selectors.accordionBody).not('.in');
+            return accordion.find(this.settings.selectors.accordionBody).not('.in');
         },
 
         getShownAccordionBodies: function (accordion) {
-            return accordion.find(this.options.selectors.accordionGroup + ' > .in');
+            return accordion.find(this.settings.selectors.accordionGroup + ' > .in');
         },
 
         getAccordionInners: function (accordionBodies) {
-            return accordionBodies.find(this.options.selectors.accordionInner);
+            return accordionBodies.find(this.settings.selectors.accordionInner);
         },
 
         setVisibility: function (accordionInners, value) {
@@ -120,4 +93,39 @@
 
     };
 
-}(jQuery, document));
+    /* PLUGIN DEFINITION
+     * ================= */
+
+    $.fn[pluginName] = function (option) {
+        return this.each(function () {
+            var $this = $(this),
+                data = $this.data(pluginName),
+                options = $.extend({}, defaults, $this.data(), typeof option === 'object' && options);
+
+            if (!data) {
+                $this.data(pluginName, (data = new Plugin(this, options)));
+            }
+
+            if (typeof options === 'string') {
+                data[option]();
+            }
+        });
+    };
+
+    /* ON DOM READY
+     * ============ */
+
+    $(document).ready(function () {
+        var targets = $('.' + pluginName),
+            accessify, option;
+
+        if (targets[0]) {
+            accessify = targets.data(pluginName);
+            option = (accessify) ? true : targets.data();
+            targets[pluginName](option);
+        } else {
+            console.log("You've decided not to " + pluginName + " this accordion.");
+        }
+    });
+
+}(jQuery, window, document));
