@@ -38,14 +38,14 @@
 
             this.$element.on({
                 hidden: function (e) {
-                    that.setInnerVisibility(that.getHiddenBodies(), 'hidden');
+                    that.setVisibility(that.getInners(that.getHiddenBodies()), 'hidden');
                 },
                 shown: function (e) {
-                    that.setInnerVisibility(that.getShownBodies(), 'visible');
+                    that.setVisibility(that.getInners(that.getShownBodies()), 'visible');
                 }
             });
             this.setInners(this.$element.find(this.settings.selectors.accordionBody));
-            this.setInnerVisibility(this.getHiddenBodies(), 'hidden');
+            this.setVisibility(this.getInners(this.getHiddenBodies()), 'hidden');
         },
 
         setInners: function (bodies) {
@@ -68,8 +68,12 @@
             return this.$element.find(this.settings.selectors.accordionGroup + ' > ' + this.settings.selectors.accordionBodyShown);
         },
 
-        setInnerVisibility: function (bodies, value) {
-            bodies.find(this.settings.selectors.accordionInner).css('visibility', value);
+        getInners: function (bodies) {
+            return bodies.find(this.settings.selectors.accordionInner);
+        },
+
+        setVisibility: function (elements, value) {
+            elements.css('visibility', value);
         }
 
     };
