@@ -1,65 +1,123 @@
-$(function () {
+(function ($, document) {
 
-    var sels, accs;
+    $(document).ready(handleDocumentReady);
 
-    sels = {
-        acc:            '.accordion',
-        accGroup:       '.accordion-group',
-        accHeading:     '.accordion-heading',
-        accBody:        '.accordion-body',
-        accInner:       '.accordion-inner'
+    function handleDocumentReady () {
+        var accordions = $('.accessify'),
+            accessify, option;
+
+        if (accordions[0]) {
+            accessify = accordions.data('accessify');
+            option = (accessify) ? true : accordions.data();
+            accordions.accessify(option);
+        } else {
+            console.log("You've decided not to accessify this accordion. Furry muff.");
+        }
+    }
+
+    $.fn.accessify = function (option) {
+        return this.each(handleAccessify);
     };
 
-    accs = $(sels.acc);
-
-    setAccInners(accs.find(sels.accBody));
-    initAcc();
-
-    accs.on({
-        hidden: function () {
-            var accBodies = getAccBodiesHidden($(this)),
-                accInners = getAccInners(accBodies);
-
-            setVisibility(accInners, 'hidden');
+    $.fn.accessify.defaults = {
+        selectors: {
+            accordion:          '.concertina',
+            accordionGroup:     '.accordion-group',
+            accordionHeading:   '.accordion-heading',
+            accordionBody:      '.accordion-body',
+            accordionInner:     '.accordion-inner'
         },
-        shown: function () {
-            var accBodies = getAccBodiesShown($(this)),
-                accInners = getAccInners(accBodies);
+        focus: true
+    };
 
-            setVisibility(accInners, 'visible');
+    function handleAccessify () {
+        var $this = $(this),
+            data = $this.data('accessify'),
+            options = $.extend({}, $.fn.accessify.defaults, $this.data(), typeof option === 'object' && options);
+
+        if (!data) {
+            $this.data('accessify', (data = new Accessify(this, options)));
         }
-    });
 
-    function setAccInners (els) {
-        $.each(els, function () {
-            var el = $(this);
-            if (el.find(sels.accInner).length === 0) {
-                el.children().wrapAll('<div class="' + sels.accInner.slice(1) + '" />');
-            }
-        });
+        if (typeof options === 'string') {
+            data[option]();
+        }
     }
 
-    function initAcc () {
-        var accBodies = getAccBodiesHidden(accs),
-            accInners = getAccInners(accBodies);
+    function Accessify (element, options) {
+        this.$element = $(element);
+        this.options = $.extend({}, $.fn.accessify.defaults, options);
 
-        setVisibility(accInners, 'hidden');
+        if (this.options.focus) {
+            this.focus();
+        }
     }
 
-    function getAccBodiesHidden (els) {
-        return els.find(sels.accBody).not('.in');
-    }
+    Accessify.prototype = {
 
-    function getAccBodiesShown (els) {
-        return els.find(sels.accGroup + ' > .in');
-    }
+        constructor: Accessify,
 
-    function getAccInners (els) {
-        return els.find(sels.accInner);
-    }
+        focus: function () {
+            var selectors = this.options.selectors,
+                that = this,
+                events, accordion, accordionBodies;
 
-    function setVisibility (els, val) {
-        els.css('visibility', val);
-    }
+            events = {
+                hidden: function () {
+                    var accordionBodies = that.getHiddenAccordionBodies($(this)),
+                        accordionInners = that.getAccordionInners(accordionBodies);
 
-});
+                    that.setVisibility(accordionInners, 'hidden');
+                },
+                shown: function () {
+                    var accordionBodies = that.getShownAccordionBodies($(this)),
+                        accordionInners = that.getAccordionInners(accordionBodies);
+
+                    that.setVisibility(accordionInners, 'visible');
+                }
+            };
+
+            accordion = this.$element.on(events);
+            accordionBodies = accordion.find(selectors.accordionBody);
+            this.setAccordionInners(accordionBodies, selectors);
+            this.initAccordion(accordion);
+        },
+
+        setAccordionInners: function (accordionBodies) {
+            var that = this;
+            $.each(accordionBodies, function () {
+                var accordionBody = $(this),
+                    selectors = that.options.selectors;
+
+                if (!accordionBody.find(selectors.accordionInner)[0]) {
+                    accordionBody.children().wrapAll('<div class="' + selectors.accordionInner.slice(1) + '" />');
+                }
+            });
+        },
+
+        initAccordion: function (accordion) {
+            var accordionBodies = this.getHiddenAccordionBodies(accordion),
+                accordionInners = this.getAccordionInners(accordionBodies);
+
+            this.setVisibility(accordionInners, 'hidden');
+        },
+
+        getHiddenAccordionBodies: function (accordion) {
+            return accordion.find(this.options.selectors.accordionBody).not('.in');
+        },
+
+        getShownAccordionBodies: function (accordion) {
+            return accordion.find(this.options.selectors.accordionGroup + ' > .in');
+        },
+
+        getAccordionInners: function (accordionBodies) {
+            return accordionBodies.find(this.options.selectors.accordionInner);
+        },
+
+        setVisibility: function (accordionInners, value) {
+            accordionInners.css('visibility', value);
+        }
+
+    };
+
+}(jQuery, document));
