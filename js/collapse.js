@@ -3,17 +3,18 @@
     var pluginName = 'accessify',
         defaults = {
             selectors: {
-                accordion:          '.accordion',
-                accordionGroup:     '.accordion-group',
-                accordionHeading:   '.accordion-heading',
-                accordionBody:      '.accordion-body',
-                accordionInner:     '.accordion-inner'
+                accordion:              '.accordion',
+                accordionGroup:         '.accordion-group',
+                accordionHeading:       '.accordion-heading',
+                accordionBody:          '.accordion-body',
+                accordionInner:         '.accordion-inner',
+                accordionBodyShown:     '.in'
             },
             focus: true
         };
 
-    /* ACCESSIFY PUBLIC CLASS DEFINITION
-     * ================================= */
+    /* PUBLIC CLASS DEFINITION
+     * ======================= */
 
     function Plugin (element, options) {
         this.$element = $(element);
@@ -27,7 +28,6 @@
     }
 
     Plugin.prototype = {
-
         constructor: Plugin,
 
         focus: function () {
@@ -52,18 +52,17 @@
 
             accordion = this.$element.on(events);
             accordionBodies = accordion.find(selectors.accordionBody);
-            this.setAccordionInners(accordionBodies, selectors);
+            this.setAccordionInners(accordionBodies);
             this.initAccordion(accordion);
         },
 
         setAccordionInners: function (accordionBodies) {
             var that = this;
             $.each(accordionBodies, function () {
-                var accordionBody = $(this),
-                    selectors = that.settings.selectors;
+                var accordionBody = $(this);
 
-                if (!accordionBody.find(selectors.accordionInner)[0]) {
-                    accordionBody.children().wrapAll('<div class="' + selectors.accordionInner.slice(1) + '" />');
+                if (!accordionBody.find(that.settings.selectors.accordionInner)[0]) {
+                    accordionBody.children().wrapAll('<div class="' + that.settings.selectors.accordionInner.slice(1) + '" />');
                 }
             });
         },
@@ -76,11 +75,11 @@
         },
 
         getHiddenAccordionBodies: function (accordion) {
-            return accordion.find(this.settings.selectors.accordionBody).not('.in');
+            return accordion.find(this.settings.selectors.accordionBody).not(this.settings.selectors.accordionBodyShown);
         },
 
         getShownAccordionBodies: function (accordion) {
-            return accordion.find(this.settings.selectors.accordionGroup + ' > .in');
+            return accordion.find(this.settings.selectors.accordionGroup + ' > ' + this.settings.selectors.accordionBodyShown);
         },
 
         getAccordionInners: function (accordionBodies) {
