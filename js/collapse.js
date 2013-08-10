@@ -1,6 +1,7 @@
 ;(function ($, window, document, undefined) {
 
     var pluginName = 'accessify',
+        target = $('.' + pluginName),
         defaults = {
             selectors: {
                 accordion:              '.accordion',
@@ -8,10 +9,12 @@
                 accordionHeading:       '.accordion-heading',
                 accordionBody:          '.accordion-body',
                 accordionInner:         '.accordion-inner',
+                accordionToggle:        '.accordion-toggle',
                 accordionBodyShown:     '.in'
             },
             focus: true
         };
+
 
     /* PUBLIC CLASS DEFINITION
      * ======================= */
@@ -31,63 +34,42 @@
         constructor: Plugin,
 
         focus: function () {
-            var selectors = this.settings.selectors,
-                that = this,
-                events, accordion, accordionBodies;
+            var that = this;
 
-            events = {
-                hidden: function () {
-                    var accordionBodies = that.getHiddenAccordionBodies($(this)),
-                        accordionInners = that.getAccordionInners(accordionBodies);
-
-                    that.setVisibility(accordionInners, 'hidden');
+            this.$element.on({
+                hidden: function (e) {
+                    that.setInnerVisibility(that.getHiddenBodies(), 'hidden');
                 },
-                shown: function () {
-                    var accordionBodies = that.getShownAccordionBodies($(this)),
-                        accordionInners = that.getAccordionInners(accordionBodies);
-
-                    that.setVisibility(accordionInners, 'visible');
+                shown: function (e) {
+                    that.setInnerVisibility(that.getShownBodies(), 'visible');
                 }
-            };
-
-            accordion = this.$element.on(events);
-            accordionBodies = accordion.find(selectors.accordionBody);
-            this.setAccordionInners(accordionBodies);
-            this.initAccordion(accordion);
+            });
+            this.setInners(this.$element.find(this.settings.selectors.accordionBody));
+            this.setInnerVisibility(this.getHiddenBodies(), 'hidden');
         },
 
-        setAccordionInners: function (accordionBodies) {
+        setInners: function (bodies) {
             var that = this;
-            $.each(accordionBodies, function () {
-                var accordionBody = $(this);
+            $.each(bodies, function () {
+                var body = $(this),
+                    inner = '<div class="' + that.settings.selectors.accordionInner.slice(1) + '" />';
 
-                if (!accordionBody.find(that.settings.selectors.accordionInner)[0]) {
-                    accordionBody.children().wrapAll('<div class="' + that.settings.selectors.accordionInner.slice(1) + '" />');
+                if (!body.find(that.settings.selectors.accordionInner)[0]) {
+                    body.children().wrapAll(inner);
                 }
             });
         },
 
-        initAccordion: function (accordion) {
-            var accordionBodies = this.getHiddenAccordionBodies(accordion),
-                accordionInners = this.getAccordionInners(accordionBodies);
-
-            this.setVisibility(accordionInners, 'hidden');
+        getHiddenBodies: function () {
+            return this.$element.find(this.settings.selectors.accordionBody).not(this.settings.selectors.accordionBodyShown);
         },
 
-        getHiddenAccordionBodies: function (accordion) {
-            return accordion.find(this.settings.selectors.accordionBody).not(this.settings.selectors.accordionBodyShown);
+        getShownBodies: function () {
+            return this.$element.find(this.settings.selectors.accordionGroup + ' > ' + this.settings.selectors.accordionBodyShown);
         },
 
-        getShownAccordionBodies: function (accordion) {
-            return accordion.find(this.settings.selectors.accordionGroup + ' > ' + this.settings.selectors.accordionBodyShown);
-        },
-
-        getAccordionInners: function (accordionBodies) {
-            return accordionBodies.find(this.settings.selectors.accordionInner);
-        },
-
-        setVisibility: function (accordionInners, value) {
-            accordionInners.css('visibility', value);
+        setInnerVisibility: function (bodies, value) {
+            bodies.find(this.settings.selectors.accordionInner).css('visibility', value);
         }
 
     };
@@ -114,14 +96,13 @@
     /* ON DOM READY
      * ============ */
 
-    $(document).ready(function () {
-        var targets = $('.' + pluginName),
-            accessify, option;
+    $(document).on('ready', function (e) {
+        var accessify, option;
 
-        if (targets[0]) {
-            accessify = targets.data(pluginName);
-            option = (accessify) ? true : targets.data();
-            targets[pluginName](option);
+        if (target[0]) {
+            accessify = target.data(pluginName);
+            option = (accessify) ? true : target.data();
+            target[pluginName](option);
         } else {
             console.log("You've decided not to " + pluginName + " this accordion.");
         }
