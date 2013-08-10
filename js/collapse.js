@@ -24,14 +24,15 @@
         this.settings = $.extend({}, defaults, options);
         this._defaults = defaults;
         this._name = pluginName;
-
-        if (this.settings.focus) {
-            this.focus();
-        }
+        this.init();
     }
 
     Plugin.prototype = {
         constructor: Plugin,
+
+        init: function () {
+            if (this.settings.focus) this.focus();
+        },
 
         focus: function () {
             var that = this;
